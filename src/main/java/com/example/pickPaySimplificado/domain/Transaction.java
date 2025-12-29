@@ -21,6 +21,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of="id")
 public class Transaction {
 
+	public Transaction() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; 
