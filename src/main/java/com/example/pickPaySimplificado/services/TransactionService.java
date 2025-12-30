@@ -13,7 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.pickPaySimplificado.domain.Transaction;
 import com.example.pickPaySimplificado.domain.user;
-import com.example.pickPaySimplificado.dtos.transactiondto;
+import com.example.pickPaySimplificado.dtos.Transactiondto;
+
 import com.example.pickPaySimplificado.repository.TransactionsRepository;
 
 @Service
@@ -29,7 +30,12 @@ public class TransactionService {
 	private RestTemplate restTemplate;
 	
 	
-	public void creatTransaction(transactiondto  transaction ) throws Exception {
+	
+	@Autowired
+	private NotificationService notificationService;
+	
+	
+	public Transaction creatTransaction(Transactiondto  transaction ) throws Exception {
 		user sender =this.userService.findUserById(transaction.senderId());
 		
 		user reciever= this.userService.findUserById(transaction.receiverId());
@@ -57,10 +63,16 @@ public class TransactionService {
 		this.transacionalRepository.save(Newtransaction);
 		this.userService.saveUser(sender);
 		this.userService.saveUser(reciever);
+		
+		this.notificationService.sendeNotification(sender ,"transação realizada com sucesso");
+		this.notificationService.sendeNotification(reciever ,"transação recibida com sucesso");
+		
+		return Newtransaction; 
 	}
 	
 	public boolean authorizeTransaction(user sender,BigDecimal value) {
-		ResponseEntity<Map> authorizationResponse = restTemplate.getForEntity("https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6",Map.class);
+		ResponseEntity<Map> authorizationResponse = restTemplate.getForEntity("http://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6\r\n"
+				+ "",Map.class);
 	
 	
 	

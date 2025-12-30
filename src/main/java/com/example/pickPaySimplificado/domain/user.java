@@ -2,6 +2,8 @@ package com.example.pickPaySimplificado.domain;
 
 import java.math.BigDecimal;
 
+import com.example.pickPaySimplificado.dtos.userDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,13 +15,27 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity(name="users")
 @Table(name="users")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of="id")
 public class user {
+
+	public  user(userDto data) {
+	
+	this.firstName=data.firstName();	
+	this.lastName= data.lastName();
+	this.balance=data.balance();
+	this.userType=data.userType();
+	this.email=data.email();
+	this.document=data.document();
+	
+	
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
